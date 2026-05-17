@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: apim-pipeline-run-005
+spec:
+  pipelineRef:
+    name: pipeline-apply
+  serviceAccountName: tekton-triggers-sa
+  params:
+    - name: repo-url
+      value: https://github.com/Dess-alew/apim-tekton-terraform.git
+    - name: branch
+      value: main
+    - name: terraform-dir
+      value: infra
+    - name: plan-file
+      value: tfplan
+  workspaces:
+    - name: shared-workspace
+      persistentVolumeClaim:
+        claimName: tekton-workspace-pvc
