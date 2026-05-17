@@ -1,2 +1,9 @@
-$versions = "terraform {`n  required_version = `">= 1.5.0`"`n  required_providers {`n    azurerm = {`n      source  = `"hashicorp/azurerm`"`n      version = `"~> 3.90`"`n    }`n  }`n}"
-[System.IO.File]::WriteAllText("$PWD\infra\versions.tf", $versions, [System.Text.Encoding]::ASCII)
+terraform {
+  required_version = ">= 1.5.0"
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.90"
+    }
+  }
+}

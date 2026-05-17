@@ -1,2 +1,6 @@
-$vars = "variable `"resource_group_name`" {`n  default = `"apim-dev-rg`"`n}`nvariable `"location`" {`n  default = `"East US`"`n}`nvariable `"apim_name`" {`n  default = `"my-apim-dev-001`"`n}`nvariable `"publisher_name`" {`n  default = `"My Organization`"`n}`nvariable `"publisher_email`" {`n  default = `"admin@myorg.com`"`n}`nvariable `"environment`" {`n  default = `"dev`"`n}"
-[System.IO.File]::WriteAllText("$PWD\infra\variables.tf", $vars, [System.Text.Encoding]::ASCII)
+variable "resource_group_name" { default = "apim-dev-rg" }
+variable "location"            { default = "East US" }
+variable "apim_name"           { default = "my-apim-dev-001" }
+variable "publisher_name"      { default = "My Organization" }
+variable "publisher_email"     { default = "admin@myorg.com" }
+variable "environment"         { default = "dev" }

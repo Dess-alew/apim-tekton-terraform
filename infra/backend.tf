@@ -1,2 +1,1 @@
-$backend = "# local state - no remote backend"
-[System.IO.File]::WriteAllText("$PWD\infra\backend.tf", $backend, [System.Text.Encoding]::ASCII)
+Set-Content infra\backend.tf '# local state only'
