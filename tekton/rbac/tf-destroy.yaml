@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: terraform-destroy
+spec:
+  params:
+    - name: terraform-dir
+      type: string
+      default: "infra"
+  workspaces:
+    - name: source
+  steps:
+    - name: destroy
+      image: hashicorp/terraform:1.7
+      workingDir: $(workspaces.source.path)/$(params.terraform-dir)
+      envFrom:
+        - secretRef:
+            name: azure-credentials
+      script: |
+        #!/usr/bin/env sh
+        set -e
+        terraform destroy -input=false -auto-approve

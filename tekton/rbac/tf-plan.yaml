@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: terraform-plan
+spec:
+  params:
+    - name: terraform-dir
+      type: string
+      default: "infra"
+    - name: plan-file
+      type: string
+      default: "tfplan"
+  workspaces:
+    - name: source
+  steps:
+    - name: plan
+      image: hashicorp/terraform:1.7
+      workingDir: $(workspaces.source.path)/$(params.terraform-dir)
+      envFrom:
+        - secretRef:
+            name: azure-credentials
+      script: |
+        #!/usr/bin/env sh
+        set -e
+        terraform plan -input=false -out=$(params.plan-file)

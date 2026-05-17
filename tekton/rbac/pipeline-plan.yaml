@@ -1,0 +1,50 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline-plan
+spec:
+  params:
+    - name: repo-url
+      type: string
+    - name: branch
+      type: string
+      default: main
+    - name: terraform-dir
+      type: string
+      default: infra
+  workspaces:
+    - name: shared-workspace
+  tasks:
+    - name: clone-repo
+      taskRef:
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+      params:
+        - name: url
+          value: $(params.repo-url)
+        - name: revision
+          value: $(params.branch)
+        - name: deleteExisting
+          value: "true"
+    - name: terraform-init
+      runAfter: [clone-repo]
+      taskRef:
+        name: terraform-init
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: terraform-dir
+          value: $(params.terraform-dir)
+    - name: terraform-plan
+      runAfter: [terraform-init]
+      taskRef:
+        name: terraform-plan
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: terraform-dir
+          value: $(params.terraform-dir)
